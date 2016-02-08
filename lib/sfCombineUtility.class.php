@@ -155,11 +155,32 @@ class sfCombineUtility
    */
   static public function skipAsset($file, array $doNotCombine = array())
   {
-    return 
+    return
       in_array($file, $doNotCombine)
       ||
       in_array(basename($file), $doNotCombine)
+      ||
+      self::skipByRegexp($file, $doNotCombine)
     ;
+  }
+
+  /**
+   * Whether or not this is a file that should be skipped
+   *
+   * @param   string  $file
+   * @param   array   $doNotCombine
+   * @return  bool
+   */
+  static public function skipByRegexp($file, array $doNotCombine = array())
+  {
+    foreach ($doNotCombine as $pattern)
+    {
+      if (preg_match($pattern, $file) === 1)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -169,7 +190,7 @@ class sfCombineUtility
    */
   static public function getCacheDir()
   {
-    return sfConfig::get('sf_cache_dir') . '/' 
+    return sfConfig::get('sf_cache_dir') . '/'
       . sfConfig::get('app_sfCombinePlugin_cache_dir','sfCombine')
     ;
   }
@@ -235,7 +256,7 @@ class sfCombineUtility
     {
       return false;
     }
-    
+
     $version = floatval(substr($userAgent, 30));
 
     return $version < 6 || ($version == 6 && strpos($userAgent, 'SV1') === false);
