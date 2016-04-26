@@ -175,11 +175,12 @@ class sfCombineUtility
   {
     foreach ($doNotCombine as $pattern)
     {
-      if (preg_match($pattern, $file) === 1)
+      if (@preg_match($pattern, $file) === 1)
       {
         return true;
       }
     }
+
     return false;
   }
 
