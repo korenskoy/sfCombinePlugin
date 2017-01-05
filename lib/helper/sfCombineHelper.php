@@ -149,6 +149,11 @@ function get_combined_javascripts(
         }
       }
 
+      if ($useAbsoluteUrl)
+      {
+        $fileDetails['options']['absolute'] = true;
+      }
+
       $html .= javascript_include_tag(
         $file,
         $fileDetails['options']
@@ -294,6 +299,11 @@ function get_combined_stylesheets(
         {
           $file .= '?t=' . $fileDetails['timestamp'];
         }
+      }
+
+      if ($useAbsoluteUrl)
+      {
+        $fileDetails['options']['absolute'] = true;
       }
 
       $html .= stylesheet_tag(
