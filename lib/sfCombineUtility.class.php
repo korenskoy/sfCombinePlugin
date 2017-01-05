@@ -208,6 +208,7 @@ class sfCombineUtility
     if (
       sfConfig::get('app_sfCombinePlugin_gzip', true)
       && !self::_checkGzipFail()
+      && !self::_checkGzipAlreadyStarted()
     )
     {
       ob_start("ob_gzhandler");
@@ -261,6 +262,16 @@ class sfCombineUtility
     $version = floatval(substr($userAgent, 30));
 
     return $version < 6 || ($version == 6 && strpos($userAgent, 'SV1') === false);
+  }
+
+  /**
+   * Check whether we can start gzip handler
+   *
+   * @return  bool
+   */
+  static protected function _checkGzipAlreadyStarted()
+  {
+    return in_array('ob_gzhandler', ob_list_handlers());
   }
 
   /**
