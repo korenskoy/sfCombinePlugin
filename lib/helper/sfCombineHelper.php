@@ -156,19 +156,27 @@ function get_combined_javascripts(
     }
     else
     {
-
       $route = isset($config['route']) ? $config['route'] : 'sfCombine';
-
-      $html .= javascript_include_tag(
-        url_for(
-          '@' . $route . '?module=sfCombine&action=js&'
-          . sfCombineUrl::getUrlString(
-            $fileDetails['files'], $fileDetails['timestamp']
-          ),
-          $useAbsoluteUrl
+      $url   = url_for(
+        '@' . $route . '?module=sfCombine&action=js&'
+        . sfCombineUrl::getUrlString(
+          $fileDetails['files'], $fileDetails['timestamp']
         ),
-        $fileDetails['options']
+        $useAbsoluteUrl
       );
+
+      if ($useAbsoluteUrl)
+      {
+        $fileDetails['options']['absolute'] = true;
+
+        // Borrowed from AssetHelper (_compute_public_path)
+        if (false === strpos(basename($url), '.'))
+        {
+          $url .= '.js';
+        }
+      }
+
+      $html .= javascript_include_tag($url, $fileDetails['options']);
     }
   }
 
@@ -296,19 +304,27 @@ function get_combined_stylesheets(
     }
     else
     {
-
       $route = isset($config['route']) ? $config['route'] : 'sfCombine';
-
-      $html .= stylesheet_tag(
-        url_for(
-          '@' . $route . '?module=sfCombine&action=css&'
-          . sfCombineUrl::getUrlString(
-            $fileDetails['files'], $fileDetails['timestamp']
-          ),
-          $useAbsoluteUrl
+      $url   = url_for(
+        '@' . $route . '?module=sfCombine&action=css&'
+        . sfCombineUrl::getUrlString(
+          $fileDetails['files'], $fileDetails['timestamp']
         ),
-        $fileDetails['options']
+        $useAbsoluteUrl
       );
+
+      if ($useAbsoluteUrl)
+      {
+        $fileDetails['options']['absolute'] = true;
+
+        // Borrowed from AssetHelper (_compute_public_path)
+        if (false === strpos(basename($url), '.'))
+        {
+          $url .= '.css';
+        }
+      }
+
+      $html .= stylesheet_tag($url, $fileDetails['options']);
     }
   }
 
