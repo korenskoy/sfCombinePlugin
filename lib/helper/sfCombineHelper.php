@@ -1,7 +1,7 @@
 <?php
 /**
  * sfCombine Helper Functions
- * 
+ *
  * @package     sfCombine
  * @subpackage  Helper
  * @author      Alexandre Mogères
@@ -92,6 +92,7 @@ function get_combined_javascripts(
   // because of groups its better to run this through when sfCombine is disabled
   // but just set all files to do not combine
   $sfCombineEnabled = sfConfig::get('app_sfCombinePlugin_enabled', false);
+  $useAbsoluteUrl   = sfConfig::get('app_sfCombinePlugin_absolute_url', false);
 
   $manager = sfCombineManager::getJsManager();
 
@@ -124,7 +125,6 @@ function get_combined_javascripts(
   $timestampConfig = sfConfig::get('app_sfCombinePlugin_timestamp', array());
   foreach ($groupedFiles as $fileDetails)
   {
-  
     if (!$fileDetails['combinable'])
     {
 
@@ -164,13 +164,14 @@ function get_combined_javascripts(
           '@' . $route . '?module=sfCombine&action=js&'
           . sfCombineUrl::getUrlString(
             $fileDetails['files'], $fileDetails['timestamp']
-          )
+          ),
+          $useAbsoluteUrl
         ),
         $fileDetails['options']
       );
     }
   }
-  
+
   return $html;
 }
 
@@ -227,6 +228,7 @@ function get_combined_stylesheets(
   // because of groups its better to run this through when sfCombine is disabled
   // but just set all files to do not combine
   $sfCombineEnabled = sfConfig::get('app_sfCombinePlugin_enabled', false);
+  $useAbsoluteUrl   = sfConfig::get('app_sfCombinePlugin_absolute_url', false);
 
   $manager = sfCombineManager::getCssManager();
 
@@ -291,7 +293,7 @@ function get_combined_stylesheets(
         $fileDetails['options']
       );
 
-    } 
+    }
     else
     {
 
@@ -301,8 +303,9 @@ function get_combined_stylesheets(
         url_for(
           '@' . $route . '?module=sfCombine&action=css&'
           . sfCombineUrl::getUrlString(
-              $fileDetails['files'], $fileDetails['timestamp']
-            )
+            $fileDetails['files'], $fileDetails['timestamp']
+          ),
+          $useAbsoluteUrl
         ),
         $fileDetails['options']
       );
@@ -361,7 +364,7 @@ function javascript_tag_minified($content = null)
   {
     return javascript_tag($content);
   }
-  
+
   if (null === $content)
   {
     ob_start();
