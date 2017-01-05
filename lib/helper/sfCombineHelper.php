@@ -125,6 +125,11 @@ function get_combined_javascripts(
   $timestampConfig = sfConfig::get('app_sfCombinePlugin_timestamp', array());
   foreach ($groupedFiles as $fileDetails)
   {
+    if ($useAbsoluteUrl)
+    {
+      $fileDetails['options']['absolute'] = true;
+    }
+
     if (!$fileDetails['combinable'])
     {
 
@@ -149,11 +154,6 @@ function get_combined_javascripts(
         }
       }
 
-      if ($useAbsoluteUrl)
-      {
-        $fileDetails['options']['absolute'] = true;
-      }
-
       $html .= javascript_include_tag(
         $file,
         $fileDetails['options']
@@ -172,8 +172,6 @@ function get_combined_javascripts(
 
       if ($useAbsoluteUrl)
       {
-        $fileDetails['options']['absolute'] = true;
-
         // Borrowed from AssetHelper (_compute_public_path)
         if (false === strpos(basename($url), '.'))
         {
@@ -278,6 +276,11 @@ function get_combined_stylesheets(
 
   foreach ($groupedFiles as $fileDetails)
   {
+    if ($useAbsoluteUrl)
+    {
+      $fileDetails['options']['absolute'] = true;
+    }
+
     if (!$fileDetails['combinable'])
     {
 
@@ -301,11 +304,6 @@ function get_combined_stylesheets(
         }
       }
 
-      if ($useAbsoluteUrl)
-      {
-        $fileDetails['options']['absolute'] = true;
-      }
-
       $html .= stylesheet_tag(
         $file,
         $fileDetails['options']
@@ -325,8 +323,6 @@ function get_combined_stylesheets(
 
       if ($useAbsoluteUrl)
       {
-        $fileDetails['options']['absolute'] = true;
-
         // Borrowed from AssetHelper (_compute_public_path)
         if (false === strpos(basename($url), '.'))
         {
