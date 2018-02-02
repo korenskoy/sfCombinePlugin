@@ -59,7 +59,7 @@ class cssmin
 		// Replace multiple to single space
 		$css = preg_replace("/\s\s+/", " ", $css);
 		// Remove unneeded spaces
-		$css = preg_replace("/\s*({|}|\[|\]|=|~|\+|>|\||;|:|,)\s*/", "$1", $css);
+		$css = preg_replace("/\s*({|}|\[|\]|=|~|>|\||;|:|,)\s*/", "$1", $css);
 		if (in_array("remove-last-semicolon", $options))
 			{
 			// Removes the last semicolon of every style definition
