@@ -136,7 +136,7 @@ class JSMin {
                 // fallthrough
             case self::ACTION_DELETE_A:
                 $this->a = $this->b;
-                if ($this->a === "'" || $this->a === '"') { // string literal
+                if ($this->a === "'" || $this->a === '"' || $this->a === '`') { // string literal
                     $str = $this->a; // in case needed for exception
                     while (true) {
                         $this->output .= $this->a;
@@ -144,7 +144,7 @@ class JSMin {
                         if ($this->a === $this->b) { // end quote
                             break;
                         }
-                        if (ord($this->a) <= self::ORD_LF) {
+                        if ($this->b !== '`' && ord($this->a) <= self::ORD_LF) {
                             throw new JSMin_UnterminatedStringException(
                                 'Unterminated String: ' . var_export($str, true));
                         }
