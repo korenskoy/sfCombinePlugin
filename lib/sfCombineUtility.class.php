@@ -126,7 +126,7 @@ class sfCombineUtility
      */
     static public function normalizePath($path)
   {
-    if (strlen($path) == 0) {
+    if ($path === '') {
         return $path;
     }
 
@@ -134,8 +134,8 @@ class sfCombineUtility
     $parts = array_filter(explode(DIRECTORY_SEPARATOR, $normalizedPath), 'strlen');
     $absolutes = array();
     foreach ($parts as $part) {
-      if ('.'  == $part) continue;
-      if ('..' == $part) {
+      if ('.'  === $part) continue;
+      if ('..' === $part) {
           array_pop($absolutes);
       } else {
           $absolutes[] = $part;
@@ -143,7 +143,7 @@ class sfCombineUtility
     }
     $normalizedPath = implode(DIRECTORY_SEPARATOR, $absolutes);
 
-    return $path{0} == '/' ? '/' . $normalizedPath : $normalizedPath;
+    return strpos($path, '/') === 0 ? '/' . $normalizedPath : $normalizedPath;
   }
 
   /**
